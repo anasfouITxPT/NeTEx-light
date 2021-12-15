@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2021 (x64) (http://www.altova.com) by Hogia Public Transport Systems AB (Hogia Public Transport Systems AB) -->
 <!--Note that this simplified XSD does not in any way replace the full NeTEx XSD. It is not guaranteed that the XSD is free from errors.-->
 <xsd:schema xmlns="http://www.netex.org.uk/netex" xmlns:gml="http://www.opengis.net/gml/3.2" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.netex.org.uk/netex" elementFormDefault="qualified" version="1.0.1" id="content_NeTEx_reduced">
 	<xsd:import namespace="http://www.opengis.net/gml/3.2" schemaLocation="gml_combo_v3_2_1_simplified.xsd"/>
@@ -685,6 +686,7 @@ for Frame. Default is SI Metres.</xsd:documentation>
 Preferred format UTC. </xsd:documentation>
 		</xsd:annotation>
 	</xsd:element>
+	<xsd:element name="PurposeOfGrouping" type="PurposeOfGrouping_ValueStructure"/>
 	<xsd:element name="PurposeOfGroupingRef" type="PurposeOfGroupingRefStructure"/>
 	<xsd:element name="Quay" type="Quay_VersionStructure">
 		<xsd:annotation>
@@ -3094,7 +3096,7 @@ CompositeFrame is for LINE_OFFER </xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
 			<xsd:element ref="equipments" minOccurs="0"/>
-			<xsd:element ref="vehicleTypes" minOccurs="0"/>			
+			<xsd:element ref="vehicleTypes" minOccurs="0"/>
 		</xsd:sequence>
 		<xsd:attributeGroup ref="DataManagedObjectAttributeGroup"/>
 	</xsd:complexType>
@@ -4423,6 +4425,13 @@ ASSIGNMENT applies. </xsd:documentation>
 		</xsd:sequence>
 		<xsd:attributeGroup ref="DataManagedObjectAttributeGroup"/>
 	</xsd:complexType>
+	<xsd:complexType name="PurposeOfGrouping_ValueStructure">
+		<xsd:sequence>
+			<xsd:group ref="DataManagedObjectElement_Group" minOccurs="0"/>
+			<xsd:group ref="TypeOfValueGroup" minOccurs="0"/>
+		</xsd:sequence>
+		<xsd:attributeGroup ref="DataManagedObjectAttributeGroup"/>
+	</xsd:complexType>
 	<xsd:group name="TypeOfValueGroup">
 		<xsd:annotation>
 			<xsd:documentation>Elements for TYPE OF VALUE.</xsd:documentation>
@@ -4766,7 +4775,7 @@ suitable for presentation to the public without further editing</xsd:documentati
 		<xsd:sequence>
 			<xsd:element ref="AvailabilityCondition" maxOccurs="unbounded"/>
 		</xsd:sequence>
-		</xsd:complexType>
+	</xsd:complexType>
 	<xsd:complexType name="capacities_RelStructure">
 		<xsd:sequence>
 			<xsd:element ref="PassengerCapacity" maxOccurs="unbounded"/>
@@ -5488,6 +5497,7 @@ to just the journeys following a particular JOURNEY PATTERN.</xsd:documentation>
 			<xsd:annotation>
 				<xsd:documentation>EPIP More types possible, but not explicitly added for now...</xsd:documentation>
 			</xsd:annotation>
+			<xsd:element ref="PurposeOfGrouping"/>
 			<xsd:element ref="TypeOfFrame"/>
 			<xsd:element ref="TypeOfPlace"/>
 			<xsd:element ref="TypeOfValidity">
@@ -6198,6 +6208,12 @@ in the FRAME. Note, this is NOT the "dominant" FRAME validity condition!  </xsd:
 			</xsd:element>
 		</xsd:choice>
 	</xsd:group>
+	<xsd:group name="VehicleTypeRefGroup">
+		<xsd:choice>
+			<xsd:element ref="VehicleTypeRef"/>
+			<xsd:element ref="TrainRef"/>
+		</xsd:choice>
+	</xsd:group>
 	<xsd:group name="ServiceJourneyGroup">
 		<xsd:sequence>
 			<xsd:group ref="ServiceTimeGroup" minOccurs="0"/>
@@ -6217,17 +6233,12 @@ in the FRAME. Note, this is NOT the "dominant" FRAME validity condition!  </xsd:
 					<xsd:documentation>Not in EPIP</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element ref="VehicleTypeRef" minOccurs="0">
+			<xsd:group ref="VehicleTypeRefGroup" minOccurs="0">
 				<xsd:annotation>
 					<xsd:documentation>Reference to TYPE OF VEHICLE to use on SERVICE
 JOURNEY.</xsd:documentation>
 				</xsd:annotation>
-			</xsd:element>
-			<xsd:element ref="TrainRef" minOccurs="0">
-				<xsd:annotation>
-					<xsd:documentation>Not in EPIP.</xsd:documentation>
-				</xsd:annotation>
-			</xsd:element>
+			</xsd:group>
 			<xsd:element ref="BlockRef" minOccurs="0">
 				<xsd:annotation>
 					<xsd:documentation>Not in EPIP.</xsd:documentation>
@@ -6334,7 +6345,7 @@ JOURNEY.</xsd:documentation>
 			<xsd:choice minOccurs="0">
 				<xsd:element ref="VehicleTypeRef">
 					<xsd:annotation>
-						<xsd:documentation>Reference to TYPE OF VEHICLE to use on SERVICE
+						<xsd:documentation>Reference to TYPE OF VEHICLE to use on VEHICLE
 JOURNEY.</xsd:documentation>
 					</xsd:annotation>
 				</xsd:element>
